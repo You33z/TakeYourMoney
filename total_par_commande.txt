@@ -1,0 +1,22 @@
+// total par commande
+
+SELECT  id_commande, SUM(total_par_produit) as total
+FROM total_per_order
+GROUP BY id_commande
+
+// vue total par commande
+create view total_per_order1 as 
+SELECT id_commande, SUM(total_par_produit) as total 
+FROM total_per_order 
+GROUP BY id_commande
+
+
+
+// VUe total par produit
+create view total_per_order as 
+select commande.id_commande,produit_commande.id_produit, produit_commande.quantite_produit,prix_produit.prix_produit,(quantite_produit*prix_produit) AS total_par_produit
+from commande
+left join produit_commande
+on produit_commande.id_commande = commande.id_commande
+left join prix_produit
+on prix_produit.id_produit = produit_commande.id_produit

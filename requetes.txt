@@ -1,0 +1,21 @@
+UPDATE commande c
+  JOIN total_per_order1 t
+    ON c.id_commande=t.id_commande 
+  SET c.total_commande=t.total;
+
+
+UPDATE prix_produit 
+SET date_sortie_prix=date_entree_prix  
+WHERE id_prix_produit = 
+(
+      SELECT id_prix_produit FROM (SELECT MAX(id_prix_produit) FROM prix_produit) AS idp
+) 
+
+
+UPDATE prix_produit SET date_sortie_prix = ? ORDER BY id_produit desc LIMIT 1
+
+
+UPDATE prix_produit SET date_sortie_prix = ? where date_sortie_prix IS NULL
+
+
+SELECT MAX(id_prix_produit) AS max_idpp FROM prix_produit
